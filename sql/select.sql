@@ -6,6 +6,14 @@ select * from cinemas;
 select * from schedules;
 select * from bookings;
 
+---- for displaying schedule table of a cinema ----
+SELECT MAX(date0) FROM schedules WHERE cinemaid = 2 GROUP BY cinemaid;
+
+SELECT * FROM schedules s 
+LEFT JOIN movies m ON m.id = s.movieid 
+WHERE s.cinemaid = 1 AND s.timeslot = '1500' ORDER BY s.date0;
+
+----
 select movieid, min(date0) as mindate from schedules where date0 >= CURRENT_DATE GROUP BY movieid;
 select movieid, avg(rating), count(*) from reviews group by movieid;
 

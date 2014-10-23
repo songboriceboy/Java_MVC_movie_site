@@ -26,6 +26,7 @@ CREATE TABLE Movies (
     director VARCHAR(30),
     actors VARCHAR(100),
     dateAdded TIMESTAMP,
+    synopsis VARCHAR(1000),
 --    CONSTRAINT ck_genre CHECK (genre IN ('SciFi','Comedy','Drama')),
     CONSTRAINT pk_movies PRIMARY KEY (id)
 );

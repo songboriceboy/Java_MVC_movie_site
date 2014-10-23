@@ -50,14 +50,22 @@ Nov  3  11:30  16:00        5        Tomcat7 issue, download setup new tomcat 7,
                                      3) CastExercise and JSP-Full, all working well; 4) derby.log, no useful info;
                                      5) ControllerServlet logger - when dead, it doesn't even reach servlet init(); but
                                      when DB is shutdown, it does reach init() and processRequest()
-
-
-@Practice using Hibernate on phonebook lab.
-@Practice Bootstrap, read spec, and design UI, code HTML.
-GWT
-HTML5
-What is JavaBean? What is EJB?
-Java Pet Store sample application to learn J2EE patterns
+Nov  4  16:00  17:50        5        Reverse to previous commits (by branching, checkout). Found the problem occurred since
+                                     4th commit (Home Search SQL). Add logging to ControllerServlet and DBFactory. Found 8
+                                     command were initialised, not the 9th (MovieDetailsCommand). Realise it is the max number
+                                     of connection in pool (maxActive attribute in context.xml).    
+        22:00  22:30        4        MoviedDetails, movieDetails operation cannot be resolved
+Nov  5  09:30  10:20        9        MoviedDetails bug fixed, 
+        12:10  15:00        8        MoviedDetails, AddMovie, ShowCinemaScheduleCommand, addmovietime.jsp, 
+        16:30  18:40        8        ShowCinemaScheduleCommand, addmovietime.jsp, Google Java Pair, create own Pair to avoid
+                                     using Map.Entry a lot, test.jsp & TestCommand to test Pair with JSTL, fail and give up.
+        22:20  23:30        8        Review JSTL, schedule table implement, Google Java Date difference, 
+Nov  6  09:00  10:20        8        Java Date, ShowCinemaScheduleCommand, 
+        14:00  15:40        7        ShowCinemaScheduleCommand, testing Pair succeeds (silly mistake), 
+        16:20  18:00        6        Apache Commmon Lang DateUtils, compareDay(), ShowCinemaScheduleCommand
+        21:30  22:40        7        ShowCinemaScheduleCommand, shrink(), 
+        23:20  01:00        8        ShowCinemaScheduleCommand, DAO, finish coding of this funtionality, debug, 
+Nov  7  11:30  12:40        8        ShowCinemaScheduleCommand, running, commit
 
 TODO:
 - unique username
@@ -67,4 +75,14 @@ TODO:
 - Upload poster image
 - single quote in sql text (insert a review comment)
 - search.jsp owner-search.jsp common code
-- 
+- Java and JSP constants enum (parameter names)
+- better exception handling
+- my own Pair class
+- custom JSP tag?
+
+@Practice using Hibernate on phonebook lab.
+@Practice Bootstrap, read spec, and design UI, code HTML.
+GWT
+HTML5
+What is JavaBean? What is EJB?
+Java Pet Store sample application to learn J2EE patterns

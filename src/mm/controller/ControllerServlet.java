@@ -1,4 +1,4 @@
-package mm.command.controller;
+package mm.controller;
 
 import java.io.*;
 import java.util.*;
@@ -11,7 +11,7 @@ import javax.servlet.http.*;
 import mm.command.*;
 import mm.db.dao.DataAccessObject;
 
-//@WebServlet(urlPatterns="/dispatcher",displayName="miaowuController")
+@WebServlet(urlPatterns="/dispatcher",displayName="miaowuController")
 public class ControllerServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static Logger logger = Logger.getLogger(ControllerServlet.class.getName());
@@ -19,6 +19,7 @@ public class ControllerServlet extends HttpServlet {
   
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
+    logger.info("init starts.");
     commands = new HashMap<String,Command>();
     // TODO: make these command strings into a enum, share with jsp. Package mm.shared.model and mm.shared.common
     commands.put("register", new RegisterCommand());
@@ -27,25 +28,30 @@ public class ControllerServlet extends HttpServlet {
     commands.put("home", new HomeCommand());
     commands.put("updateDetails", new UpdateDetailsCommand());
     commands.put("search", new SearchCommand());
+    commands.put("movieDetails", new MovieDetailsCommand());
     commands.put("addCinema", new AddCinemaCommand());
     commands.put("addMovie", new AddMovieCommand());
-    commands.put("movieDetails", new MovieDetailsCommand());
-    logger.info("init finished.");
+    commands.put("showCinemaSchedule", new ShowCinemaScheduleCommand());
+    commands.put("test", new TestCommand());
+    logger.info("init finishes.");
   }
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
   throws ServletException, IOException {
-    Command cmd = (Command) commands.get(request.getParameter("operation"));
-    logger.info("found command: " + cmd.getClass().getName());
+    String op = request.getParameter("operation");
+    Command cmd = (Command) commands.get(op);
     String next;
     if (cmd != null) {
+      logger.info("found command: " + cmd.getClass().getName());
       next = cmd.execute(request, response);
       while (next.indexOf('.') < 0) { // not jsp file
         cmd = (Command) commands.get(next);
         next = cmd.execute(request, response);
       }
-    } else
+    } else {
+      request.setAttribute("errorMsg", "operation "+op+" cannot be resolved.");
       next = "/error.jsp";
+    }
     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(next);
     dispatcher.forward(request, response);
   }

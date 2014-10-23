@@ -1,13 +1,13 @@
 <%@ include file="owner-header.jsp"%>
 
-<form action="dispatcher?operation=addMovie">
+<form action="dispatcher?operation=addMovie" method="post">
 <table>
 <tr><td><b>Movie Title:</b></td><td><input type="text" name="title"></td></tr>
 <tr><td><b>Poster:</b></td><td><input type="text" name="poster"></td></tr>
 <tr><td><b>Main Actors:</b></td><td><input type="text" name="actors"></td></tr>
 <tr><td><b>Genre:</b></td><td>
 <select name="genre">
- <option value="Science-Fiction">Science-Fiction</option>
+ <option value="Science Fiction">Science Fiction</option>
  <option value="Fantasy">Fantasy</option>
  <option value="Dramma">Dramma</option>
  <option value="Comedy">Comedy</option>

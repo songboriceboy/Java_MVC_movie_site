@@ -5,9 +5,9 @@
 <td>|</td>
 <td><a href="owner-addcinema.jsp">Add Cinema</a></td>
 <td>|</td>
-<td><a href="dispatcher?operation=search">Add Movie</a></td>
+<td><a href="owner-addmovie.jsp">Add Movie</a></td>
 <td>|</td>
-<td><a href="dispatcher?operation=addMovieTime">Add Movie Time</a></td>
+<td><a href="owner-search.jsp">Add Movie Time</a></td>
 <td>|</td>
 <td><a href="dispatcher?operation=logout">Logout</a></td>
 <td>|</td>

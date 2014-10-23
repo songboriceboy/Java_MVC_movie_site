@@ -113,4 +113,31 @@ public class Movie {
     this.status = status;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Movie other = (Movie) obj;
+    if (id != other.id)
+      return false;
+    return true;
+  }
+
+  public static Movie dummyMovie() {
+    Movie m = new Movie();
+    m.setId(DUMMY_ID);
+    m.setTitle(DUMMY_TITLE);
+    return m ;
+  }
+
+  public boolean isDummyMovie() {
+    return (id==DUMMY_ID && DUMMY_TITLE.equals(title));
+  }
+
+  private static final int DUMMY_ID = -1;
+  private static final String DUMMY_TITLE = "This movie should not exist";
 }

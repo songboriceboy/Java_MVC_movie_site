@@ -4,8 +4,8 @@
 <%@ include file="header.jsp"%>
 <% } %>
 
-<h3>ERROR!!</h3>
-<img src="images/seppuku.jpg"  alt="Image from arsenelumpen.wordpress.com" height="500"/>
+<h3>ERROR!!<c:if test="${!empty errorMsg}"> ${errorMsg}</c:if></h3>
+<img src="images/seppuku.jpg" alt="Image from arsenelumpen.wordpress.com" height="500"/>
 
 </body>
 </html>

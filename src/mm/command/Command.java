@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import mm.db.dao.DataAccessObject;
 
 public abstract class Command {
-  protected DataAccessObject dao;
+  protected static DataAccessObject dao = new DataAccessObject();
   
   public Command() {
-    dao = new DataAccessObject();
+//    if (dao == null) dao = new DataAccessObject();
   }
 
 //  protected DataAccessObject getDAO() {

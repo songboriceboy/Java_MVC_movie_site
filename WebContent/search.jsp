@@ -20,7 +20,7 @@
       </c:otherwise>
     </c:choose></td>
 <td>${m.status}</td>
-<td><a href="dispatcher?operation=movieDetails?id=${m.id}">Details</a></td></tr>
+<td><a href="dispatcher?operation=movieDetails&movieid=${m.id}">Details</a></td></tr>
 </c:forEach>
 </table>
 </body>
