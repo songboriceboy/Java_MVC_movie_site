@@ -1,6 +1,7 @@
+<%@ include file="header0.jsp"%>
 <h1>Welcome to MiaowuMovie Owner's Portal!</h1>
 <table>
-<tr><td>You are logged in as: xiaohuli. </td>
+<tr><td>You are logged in as: ${owner_ss.username}. </td>
 <td>|</td>
 <td><a href="owner-addcinema.jsp">Add Cinema</a></td>
 <td>|</td>

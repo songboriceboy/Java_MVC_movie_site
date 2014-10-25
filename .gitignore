@@ -7,3 +7,5 @@ org.eclipse.wst.jsdt.ui.superType.name
 org.eclipse.wst.jsdt.ui.superType.container
 org.eclipse.wst.common.component
 *.jpg
+*.class
+*.jar
