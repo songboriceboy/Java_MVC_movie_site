@@ -7,7 +7,7 @@
 <td>|</td>
 <td><a href="dispatcher?operation=search">Search</a></td>
 <td>|</td>
-<td><a href="dispatcher?operation=myaccount">My Account</a></td>
+<td><a href="myaccount.jsp">My Account</a></td>
 <td>|</td>
 <td><a href="dispatcher?operation=logout">Logout</a></td>
 <td>|</td>

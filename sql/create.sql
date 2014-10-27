@@ -7,6 +7,7 @@ CREATE TABLE Viewers (
     lastname VARCHAR(20),
     email VARCHAR(50),
     activated BOOLEAN,
+    CONSTRAINT unique_username UNIQUE (username),
     CONSTRAINT pk_viewers PRIMARY KEY (id)
 );
 
@@ -47,6 +48,7 @@ CREATE TABLE Cinemas (
     location VARCHAR(40) NOT NULL,
     seatCapacity SMALLINT NOT NULL,
     unitPrice SMALLINT NOT NULL,
+    CONSTRAINT unique_location UNIQUE (location),
     CONSTRAINT pk_cinemas PRIMARY KEY (id)
 );
 

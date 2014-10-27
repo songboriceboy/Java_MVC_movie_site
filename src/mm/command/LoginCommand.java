@@ -28,5 +28,6 @@ public class LoginCommand extends Command {
       request.setAttribute("loginError", true);
       return "/login.jsp";
     }
+    // TODO: Better way to distinguish viewer and owner when login.
   }
 }

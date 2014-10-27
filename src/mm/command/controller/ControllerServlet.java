@@ -7,10 +7,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-import mm.command.Command;
-import mm.command.HomeCommand;
-import mm.command.LoginCommand;
-import mm.command.LogoutCommand;
+import mm.command.*;
 
 @WebServlet(urlPatterns="/dispatcher",displayName="miaowuController")
 public class ControllerServlet extends HttpServlet {
@@ -20,30 +17,31 @@ public class ControllerServlet extends HttpServlet {
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
     commands = new HashMap<String,Command>();
+    // TODO: make these command strings into a enum, share with jsp. Package mm.shared.model and mm.shared.common
+    commands.put("register", new RegisterCommand());
     commands.put("login", new LoginCommand());
     commands.put("logout", new LogoutCommand());
     commands.put("home", new HomeCommand());
-//    commands.put("PAGE_NOT_FOUND", new ErrorCommand());
+    commands.put("updateDetails", new UpdateDetailsCommand());
+    commands.put("search", new SearchCommand());
+    commands.put("addCinema", new AddCinemaCommand());
+    commands.put("addMovie", new AddMovieCommand());
   }
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
   throws ServletException, IOException {
-    Command cmd = resolveCommand(request);
-    String next = cmd.execute(request, response);
-    if (next.indexOf('.') < 0) {
-      cmd = (Command) commands.get(next);
+    Command cmd = (Command) commands.get(request.getParameter("operation"));
+    String next;
+    if (cmd != null) {
       next = cmd.execute(request, response);
-    }   
+      while (next.indexOf('.') < 0) { // not jsp file
+        cmd = (Command) commands.get(next);
+        next = cmd.execute(request, response);
+      }
+    } else
+      next = "/error.jsp";
     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(next);
     dispatcher.forward(request, response);
-  }
-  
-  private Command resolveCommand(HttpServletRequest request) {
-    Command cmd = (Command) commands.get(request.getParameter("operation"));
-    if (cmd == null) {
-      cmd = (Command) commands.get("PAGE_NOT_FOUND");
-    }
-    return cmd;
   }
   
   protected void doGet(HttpServletRequest request, HttpServletResponse response)

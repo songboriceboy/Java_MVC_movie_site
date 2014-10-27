@@ -10,9 +10,9 @@
 <body>
 <%@ include file="owner-header.jsp"%>
 
-<form action="dispatcher?operation=addCinema">
+<form action="dispatcher?operation=addCinema" method="post">
 <table>
-<tr><td><b>Cinema Name:</b></td><td><input type="text" name="name"></td></tr>
+<tr><td><b>Cinema location:</b></td><td><input type="text" name="location"></td></tr>
 <tr><td><b>Seat Capacity:</b></td><td><input type="text" name="capacity"></td></tr>
 <tr><td><b>Single Ticket Price:</b></td><td>$<input type="text" name="ticketprice"></td></tr>
 <tr><td></td><td><input type="submit" value="Add Cinema!"></td></tr>

@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>MiaowuMovie Register</h1>
-<form action="register" method="post">
+<form action="dispatcher?operation=register" method="post">
 <table>
 <tr><td>Username:</td><td><input name="username" type="text"></td></tr>
 <tr><td>Password:</td><td><input name="password" type="password"></td></tr>

@@ -29,12 +29,14 @@ Oct 24  14:20  15:00        5        Oracle.com MVC, tutorialpoint MVC,
         11:00  11:20        5        Factory Method pattern, 
         00:00  02:40        7        think about which design patterns to use for MiaowuMovie, tutorialpoints, 
                                      Service Locator Pattern in 9321 note and lab, 
-Oct 25  13:10  16:30        6        Think about login() - Viwer / Owner separate or together? 
+Oct 25  13:10  16:30        5        Think about login() - Viwer / Owner separate or together? 
                                      Coding DB Connection - Service Locator pattern. JUnit test fail. Debug,
                                      compare with labs, confuse. Add common-xxxx.jar files and it worked.
                                      Coding Command / Controller / DAO, 
-        20:20  21:20        7        LoginCommand,                  
-        23:30  01:00        7        LoginCommand, login.jsp, JSTL, Logout, 
+        20:20  21:20        6        LoginCommand,                  
+        23:30  01:00        6~8      LoginCommand, login.jsp, JSTL, Logout, 
+Oct 27  12:50  16:00        8        Enum, Movie bean, UpdateDetails, error.jsp, Register, AddCinema, 
+
 
 @Practice using Hibernate on phonebook lab.
 @Practice Bootstrap, read spec, and design UI, code HTML.
@@ -46,3 +48,7 @@ Java Pet Store sample application to learn J2EE patterns
 TODO:
 - unique username
 - Better way to distinguish viewer and owner when login.
+- form validation
+- Email and user activation
+- Upload poster image
+- 

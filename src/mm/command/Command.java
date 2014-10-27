@@ -15,9 +15,9 @@ public abstract class Command {
     dao = new DataAccessObject();
   }
 
-  protected DataAccessObject getDAO() {
-    return dao;
-  }
+//  protected DataAccessObject getDAO() {
+//    return dao;
+//  }
 
   public abstract String execute(HttpServletRequest request, HttpServletResponse response)
   throws ServletException, IOException;
