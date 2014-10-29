@@ -29,18 +29,18 @@ CREATE TABLE Movies (
 --    CONSTRAINT ck_genre CHECK (genre IN ('SciFi','Comedy','Drama')),
     CONSTRAINT pk_movies PRIMARY KEY (id)
 );
-
+DROP TABLE reviews;
 CREATE TABLE Reviews (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     viewerId INTEGER NOT NULL,
     movieId INTEGER NOT NULL,
-    title VARCHAR(40) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     comment VARCHAR(1000),
-    rating SMALLINT NOT NULL,
-    dateAdded TIMESTAMP,
+    rating REAL NOT NULL,
+    timeAdded TIMESTAMP,
     CONSTRAINT pk_reviews PRIMARY KEY (id),
-    CONSTRAINT fk_viewer_id FOREIGN KEY (viewerId) REFERENCES Viewers(id),
-    CONSTRAINT fk_movie_id FOREIGN KEY (movieId) REFERENCES Movies(id)
+    CONSTRAINT fk_review_viewer_id FOREIGN KEY (viewerId) REFERENCES Viewers(id),
+    CONSTRAINT fk_review_movie_id FOREIGN KEY (movieId) REFERENCES Movies(id)
 );
 
 CREATE TABLE Cinemas (

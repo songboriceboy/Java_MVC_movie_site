@@ -36,6 +36,12 @@ Oct 25  13:10  16:30        5        Think about login() - Viwer / Owner separat
         20:20  21:20        6        LoginCommand,                  
         23:30  01:00        6~8      LoginCommand, login.jsp, JSTL, Logout, 
 Oct 27  12:50  16:00        8        Enum, Movie bean, UpdateDetails, error.jsp, Register, AddCinema, 
+        19:30  20:50        8        Movie and Schedule data insert, Home screen movie list, 
+Oct 28  08:20  10:00        8        SQL query for movie list on home / seach screen        
+        13:00  16:30        9        SQL query for movie list on home / seach screen, LEFT JOIN, HomeCommand, home.jsp
+                                     SearchCommand, DAO
+        17:10  17:50        8        search.jsp
+        20:20  20:40        4        MovieDetailsCommand
 
 
 @Practice using Hibernate on phonebook lab.
@@ -51,4 +57,6 @@ TODO:
 - form validation
 - Email and user activation
 - Upload poster image
+- single quote in sql text (insert a review comment)
+- search.jsp owner-search.jsp common code
 - 

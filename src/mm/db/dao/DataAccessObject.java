@@ -1,15 +1,19 @@
 package mm.db.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
 import mm.db.jdbc.QuickDBConnectionFactory;
+import mm.model.Movie;
 import mm.model.Owner;
 import mm.model.Viewer;
 
@@ -54,9 +58,7 @@ public class DataAccessObject {
         String firstname = rs.getString("firstname");
         String lastname = rs.getString("lastname");
         String email = rs.getString("email");
-//        if (nickname == null) nickname = "";
-//        if (firstname == null) firstname = "";
-//        if (lastname == null) lastname = "";
+        // TODO: is it necessary to convert NULL string to empty string? nickname, firstname, lastname
         boolean activated = rs.getBoolean("activated");
         return new Viewer(id, username, password, nickname, firstname, lastname, email, activated);
       }
@@ -119,6 +121,97 @@ public class DataAccessObject {
 
   private void warnZeroRowAffected() {
     logger.warning("0 row affected.");
+  }
+
+  public List<Movie> listNowShowingMovies() {
+    return listHomepageMovies(false);
+  }
+
+  public List<Movie> listCoomingSoonMovies() {
+    return listHomepageMovies(true);
+  }
+
+  private List<Movie> listHomepageMovies(boolean comingSoon) {
+    List<Movie> ret = new ArrayList<Movie>();
+    String operator = comingSoon ? ">" : "=";
+    String sql = "SELECT m.*, s.mindate, r.avgrating, r.numreviews FROM movies m "
+        + "LEFT JOIN (SELECT movieid, AVG(rating) AS avgrating, COUNT(*) AS numreviews FROM reviews GROUP BY movieid) r "
+        + "ON r.movieid = m.id, "
+        + "(SELECT movieid, MIN(date0) AS mindate FROM schedules WHERE date0 >= CURRENT_DATE GROUP BY movieid) s "
+        + "WHERE s.movieid = m.id AND s.mindate "+operator+" CURRENT_DATE "
+        + "ORDER BY m.dateAdded DESC";
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        ret.add(makeMovieOnList(rs));
+      }
+      return ret ;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private Movie makeMovieOnList(ResultSet rs) throws SQLException {
+    Movie m = new Movie();
+    m.setId(rs.getInt("id"));
+    m.setTitle(rs.getString("title"));
+    m.setPoster(rs.getString("poster"));
+    m.setGenre(rs.getString("genre"));
+    m.setDirector(rs.getString("director"));
+    m.setActors(rs.getString("actors"));
+    m.setDateAdded(rs.getTimestamp("dateAdded"));
+    m.setRating(rs.getFloat("avgRating"));
+    m.setNumReviews(rs.getInt("numReviews"));
+    return m;
+  }
+  
+  public List<Movie> searchMovie(String keyword, boolean byTitle, boolean byGenre) {
+    if (keyword == null || keyword.trim().equals("")) {
+      byTitle = false;
+      byGenre = false;
+    } else
+      keyword = keyword.toLowerCase();
+    
+    StringBuilder sql = new StringBuilder(
+          "SELECT * FROM movies m"
+        + " LEFT JOIN (SELECT movieid, MIN(date0) AS mindate FROM schedules WHERE date0 >= CURRENT_DATE GROUP BY movieid) s"
+        + " ON s.movieid = m.id"
+        + " LEFT JOIN (SELECT movieid, AVG(rating) AS avgrating, COUNT(*) AS numreviews FROM reviews GROUP BY movieid) r"
+        + " ON r.movieid = m.id");
+    if (byTitle && byGenre)
+      sql.append(" WHERE (LOWER(m.title) LIKE '%"+keyword+"%' or LOWER(m.genre) LIKE '%"+keyword+"%')");
+    else if (byTitle && !byGenre)
+      sql.append(" WHERE (LOWER(m.title) LIKE '%"+keyword+"%')");
+    else if (!byTitle && byGenre)
+      sql.append(" WHERE (LOWER(m.genre) LIKE '%"+keyword+"%')");
+    sql.append(" ORDER BY m.dateAdded DESC");
+    
+    List<Movie> ret = new ArrayList<Movie>();
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery(sql.toString());
+      while (rs.next()) {
+        Movie m = makeMovieOnList(rs);
+        Date d = rs.getDate("minDate");
+        if (d == null)
+          m.setStatus("No future showing time scheduled.");
+        else {
+          // d must be >= today as it is specified in the SQL
+          java.util.Date today = new java.util.Date();
+          if (d.after(today))
+            m.setStatus("Coming Soon on " + d); // TODO: date format Oct 12 2014
+          else // must be equal
+            m.setStatus("Now Showing");
+        }
+        ret.add(m);
+      }
+      return ret ;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
   
 }

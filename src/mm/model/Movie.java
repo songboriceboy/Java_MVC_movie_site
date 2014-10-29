@@ -12,18 +12,10 @@ public class Movie {
   private String director;
   private String actors;
   private Timestamp dateAdded;
-  private int rating;
+  private float rating;
+  private int numReviews;
   private List<Review> reviews;
-  
-  public Movie(int id, String title, String poster, String genre, String director, String actors, Timestamp dateAdded) {
-    this.id = id;
-    this.title = title;
-    this.poster = poster;
-    this.genre = genre;
-    this.director = director;
-    this.actors = actors;
-    this.dateAdded = dateAdded;
-  }
+  private String status;
 
   public int getId() {
     return id;
@@ -89,12 +81,20 @@ public class Movie {
     this.dateAdded = dateAdded;
   }
 
-  public int getRating() {
+  public float getRating() {
     return rating;
   }
 
-  public void setRating(int rating) {
+  public void setRating(float rating) {
     this.rating = rating;
+  }
+
+  public int getNumReviews() {
+    return numReviews;
+  }
+
+  public void setNumReviews(int numReviews) {
+    this.numReviews = numReviews;
   }
 
   public List<Review> getReviews() {
@@ -103,6 +103,14 @@ public class Movie {
 
   public void setReviews(List<Review> reviews) {
     this.reviews = reviews;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
 }

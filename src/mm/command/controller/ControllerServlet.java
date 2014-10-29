@@ -26,6 +26,7 @@ public class ControllerServlet extends HttpServlet {
     commands.put("search", new SearchCommand());
     commands.put("addCinema", new AddCinemaCommand());
     commands.put("addMovie", new AddMovieCommand());
+    commands.put("movieDetails", new MovieDetailsCommand());
   }
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)

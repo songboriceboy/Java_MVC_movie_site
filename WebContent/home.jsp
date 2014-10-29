@@ -1,17 +1,33 @@
 <%@ include file="header.jsp"%>
 <h1 style="font-family: verdana; color: red;"> Now Showing: </h1>
 <table><tr>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/edge of tomorrow.jpg" height="300" width="200"></a> <p><b>Edge of Tomorrow</b></p> Rating: 4.6 (12 Reviews) </td>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/edge of tomorrow.jpg" height="300" width="200"></a> <p><b>Edge of Tomorrow</b></p> Rating: 4.6 (12 Reviews) </td>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/edge of tomorrow.jpg" height="300" width="200"></a> <p><b>Edge of Tomorrow</b></p> Rating: 4.6 (12 Reviews) </td>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/edge of tomorrow.jpg" height="300" width="200"></a> <p><b>Edge of Tomorrow</b></p> Rating: 4.6 (12 Reviews) </td>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/edge of tomorrow.jpg" height="300" width="200"></a> <p><b>Edge of Tomorrow</b></p> Rating: 4.6 (12 Reviews) </td>
+<c:forEach var="m" items="${NowShowingList}">
+<td width="210"> <a href="dispatcher?operation=movieDetails?id=${m.id}"><img src="${m.poster}" height="300" width="200"></a> <p><b>${m.title}</b></p>
+    <c:choose>
+      <c:when test="${m.numReviews eq 0}">
+        No review yet.
+      </c:when>
+      <c:otherwise>
+        Rating: ${m.rating} (${m.numReviews} Reviews)
+      </c:otherwise>
+    </c:choose>
+</td>
+</c:forEach>
 </tr></table>
 <h2 style="font-family: times; color: blue;"> Coming Soon:</h2>
 <table><tr>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/edge of tomorrow.jpg" height="300" width="200"></a> <p><b>Edge of Tomorrow</b></p> Rating: 4.6 (12 Reviews) </td>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/matrix.jpg" height="300" width="200"></a> <p><b>The Matrix</b></p> Rating: 4.6 (12 Reviews) </td>
-<td width="210"> <a href="display?id=1"><img alt="zz" src="posters/matrix.jpg" height="300" width="200"></a> <p><b>The Matrix</b></p> Rating: 4.6 (12 Reviews) </td>
+<c:forEach var="m" items="${ComingSoonList}">
+<td width="210"> <a href="dispatcher?operation=movieDetails?id=${m.id}"><img src="${m.poster}" height="300" width="200"></a> <p><b>${m.title}</b></p>
+    <c:choose>
+      <c:when test="${m.numReviews eq 0}">
+        No review yet.
+      </c:when>
+      <c:otherwise>
+        Rating: ${m.rating} (${m.numReviews} Reviews)
+      </c:otherwise>
+    </c:choose>
+</td>
+</c:forEach>
 </tr></table>
 </body>
 </html>
