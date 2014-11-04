@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 import mm.db.jdbc.QuickDBConnectionFactory;
 import mm.model.Movie;
 import mm.model.Owner;
+import mm.model.Review;
 import mm.model.Viewer;
 
 public class DataAccessObject {
@@ -144,7 +145,7 @@ public class DataAccessObject {
       Statement stmt = con.createStatement();
       ResultSet rs = stmt.executeQuery(sql);
       while (rs.next()) {
-        ret.add(makeMovieOnList(rs));
+        ret.add(makeMovie(rs));
       }
       return ret ;
     } catch (SQLException e) {
@@ -153,7 +154,7 @@ public class DataAccessObject {
     return null;
   }
 
-  private Movie makeMovieOnList(ResultSet rs) throws SQLException {
+  private Movie makeMovie(ResultSet rs) throws SQLException {
     Movie m = new Movie();
     m.setId(rs.getInt("id"));
     m.setTitle(rs.getString("title"));
@@ -166,8 +167,24 @@ public class DataAccessObject {
     m.setNumReviews(rs.getInt("numReviews"));
     return m;
   }
+
+  private Movie makeMovieWithStatus(ResultSet rs) throws SQLException {
+    Movie m = makeMovie(rs);
+    Date d = rs.getDate("mindate");
+    if (d  == null)
+      m.setStatus("No future showing time scheduled.");
+    else {
+      // d must be >= today as it is specified in the SQL
+      java.util.Date today = new java.util.Date();
+      if (d.after(today))
+        m.setStatus("Coming Soon on " + d); // TODO: date format Oct 12 2014
+      else // must be equal
+        m.setStatus("Now Showing");
+    }
+    return m;
+  }
   
-  public List<Movie> searchMovie(String keyword, boolean byTitle, boolean byGenre) {
+  public List<Movie> searchMovies(String keyword, boolean byTitle, boolean byGenre) {
     if (keyword == null || keyword.trim().equals("")) {
       byTitle = false;
       byGenre = false;
@@ -193,21 +210,55 @@ public class DataAccessObject {
       Statement stmt = con.createStatement();
       ResultSet rs = stmt.executeQuery(sql.toString());
       while (rs.next()) {
-        Movie m = makeMovieOnList(rs);
-        Date d = rs.getDate("minDate");
-        if (d == null)
-          m.setStatus("No future showing time scheduled.");
-        else {
-          // d must be >= today as it is specified in the SQL
-          java.util.Date today = new java.util.Date();
-          if (d.after(today))
-            m.setStatus("Coming Soon on " + d); // TODO: date format Oct 12 2014
-          else // must be equal
-            m.setStatus("Now Showing");
-        }
-        ret.add(m);
+        ret.add(makeMovieWithStatus(rs));
       }
       return ret ;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public Movie findMovieDetails(int id) {
+    String sql =
+        "SELECT * FROM movies m"
+      + " LEFT JOIN (SELECT movieid, MIN(date0) AS mindate FROM schedules WHERE date0 >= CURRENT_DATE GROUP BY movieid) s"
+      + " ON s.movieid = m.id"
+      + " LEFT JOIN (SELECT movieid, AVG(rating) AS avgrating, COUNT(*) AS numreviews FROM reviews GROUP BY movieid) r"
+      + " ON r.movieid = m.id"
+      + " WHERE m.id="+id;
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery(sql);
+      if (rs.next()) {
+        Movie m = makeMovieWithStatus(rs);
+        return m;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public List<Review> findReviewsByMovie(int id) {
+    List<Review> ret = new ArrayList<Review>();
+    String sql = "SELECT v.username, r.*"
+        + " FROM reviews r, viewers v WHERE r.viewerid = v.id AND r.movieid = "+id
+        + " ORDER BY r.timeAdded desc";
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        Review r = new Review();
+        r.setId(rs.getInt("id"));
+        r.setTitle(rs.getString("title"));
+        r.setComment(rs.getString("comment"));
+        r.setUsername(rs.getString("username"));
+        r.setRating(rs.getShort("rating"));
+        r.setTimeAdded(rs.getTimestamp("timeAdded"));
+        ret.add(r);
+      }
+      return ret;
     } catch (SQLException e) {
       e.printStackTrace();
     }

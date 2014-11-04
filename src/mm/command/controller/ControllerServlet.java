@@ -2,16 +2,19 @@ package mm.command.controller;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import mm.command.*;
+import mm.db.dao.DataAccessObject;
 
-@WebServlet(urlPatterns="/dispatcher",displayName="miaowuController")
+//@WebServlet(urlPatterns="/dispatcher",displayName="miaowuController")
 public class ControllerServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  private static Logger logger = Logger.getLogger(ControllerServlet.class.getName());
   private Map<String,Command> commands;
   
   public void init(ServletConfig config) throws ServletException {
@@ -27,11 +30,13 @@ public class ControllerServlet extends HttpServlet {
     commands.put("addCinema", new AddCinemaCommand());
     commands.put("addMovie", new AddMovieCommand());
     commands.put("movieDetails", new MovieDetailsCommand());
+    logger.info("init finished.");
   }
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
   throws ServletException, IOException {
     Command cmd = (Command) commands.get(request.getParameter("operation"));
+    logger.info("found command: " + cmd.getClass().getName());
     String next;
     if (cmd != null) {
       next = cmd.execute(request, response);

@@ -26,4 +26,15 @@ SELECT m.*, s.mindate, r.avgrating, r.numreviews FROM movies m
 WHERE s.movieid = m.id AND s.mindate = CURRENT_DATE
 ORDER BY m.dateAdded DESC;
 
+--- movie details query ---
+SELECT * FROM movies m
+ LEFT JOIN (SELECT movieid, MIN(date0) AS mindate FROM schedules WHERE date0 >= CURRENT_DATE GROUP BY movieid) s
+  ON s.movieid = m.id
+ LEFT JOIN (SELECT movieid, AVG(rating) AS avgrating, COUNT(*) AS numreviews FROM reviews GROUP BY movieid) r
+  ON r.movieid = m.id
+WHERE m.id = 5; 
+
+--- reviews of a movie ----
+SELECT v.username, r.* FROM reviews r, viewers v WHERE r.viewerid = v.id AND r.movieid = 2 ORDER BY r.timeAdded desc;
+
 select m.id, m.title, s.date0 from movies m left join schedules s on m.id = s.movieid order by m.id, s.date0;

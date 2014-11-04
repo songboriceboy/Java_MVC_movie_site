@@ -29,7 +29,7 @@ CREATE TABLE Movies (
 --    CONSTRAINT ck_genre CHECK (genre IN ('SciFi','Comedy','Drama')),
     CONSTRAINT pk_movies PRIMARY KEY (id)
 );
-DROP TABLE reviews;
+
 CREATE TABLE Reviews (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
     viewerId INTEGER NOT NULL,

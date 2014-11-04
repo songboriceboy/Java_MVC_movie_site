@@ -3,8 +3,6 @@ insert into Viewers values (default,'chengyi','a',null,'Ryan','Zhang','zhangchen
 
 insert into Owners values (default,'yiyo','a');
 
-insert into REVIEWS values (default, 5, 'review title');
-
 insert into MOVIES values (default, 'Next','posters/next.jpg','Science Fiction',null,null,CURRENT_TIMESTAMP);
 insert into MOVIES values (default, 'Edge of Tomorrow','posters/edge of tomorrow.jpg','Science Fiction',null,null,CURRENT_TIMESTAMP);
 insert into MOVIES values (default, 'Inception','posters/inception_.jpg','Science Fiction',null,null,CURRENT_TIMESTAMP);

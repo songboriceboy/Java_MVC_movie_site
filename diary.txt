@@ -42,6 +42,14 @@ Oct 28  08:20  10:00        8        SQL query for movie list on home / seach sc
                                      SearchCommand, DAO
         17:10  17:50        8        search.jsp
         20:20  20:40        4        MovieDetailsCommand
+Oct 29  22:00  23:10        8        MovieDetailsCommand, moviedetails.jsp
+Oct 30  12:10  13:10        8        moviedetails.jsp, Tomcat no response, Derby lost SA schema once server shutdown, 
+Nov  3  11:30  16:00        5        Tomcat7 issue, download setup new tomcat 7, it seems to be the problem of 
+                                     MiaowuMovie, because CastExercie works fine with tomcat7. Things tried:
+                                     1) reverse all local changes to last commit; 2) create new project, add files gradually
+                                     3) CastExercise and JSP-Full, all working well; 4) derby.log, no useful info;
+                                     5) ControllerServlet logger - when dead, it doesn't even reach servlet init(); but
+                                     when DB is shutdown, it does reach init() and processRequest()
 
 
 @Practice using Hibernate on phonebook lab.

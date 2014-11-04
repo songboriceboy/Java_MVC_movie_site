@@ -18,7 +18,7 @@ public class SearchCommand extends Command {
 //      return "/search.jsp";
 //    }
 
-    request.setAttribute("SearchResult", dao.searchMovie(keyword, byTitle, byGenre));;
+    request.setAttribute("SearchResult", dao.searchMovies(keyword, byTitle, byGenre));;
     if (request.getSession().getAttribute("viewer_ss") != null) { // viewer's session
       return "/search.jsp";
     } else { // owner's session

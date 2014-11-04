@@ -9,3 +9,4 @@ org.eclipse.wst.common.component
 *.jpg
 *.class
 *.jar
+*.diff
