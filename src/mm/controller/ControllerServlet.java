@@ -32,6 +32,7 @@ public class ControllerServlet extends HttpServlet {
     commands.put("addCinema", new AddCinemaCommand());
     commands.put("addMovie", new AddMovieCommand());
     commands.put("showCinemaSchedule", new ShowCinemaScheduleCommand());
+    commands.put("addMovieTime", new AddMovieTimeCommand());
     commands.put("test", new TestCommand());
     logger.info("init finishes.");
   }
@@ -42,7 +43,7 @@ public class ControllerServlet extends HttpServlet {
     Command cmd = (Command) commands.get(op);
     String next;
     if (cmd != null) {
-      logger.info("found command: " + cmd.getClass().getName());
+      logger.info("Executing command: " + cmd.getClass().getName());
       next = cmd.execute(request, response);
       while (next.indexOf('.') < 0) { // not jsp file
         cmd = (Command) commands.get(next);

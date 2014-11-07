@@ -34,20 +34,20 @@ public class Util {
   }
 
   /**
-   * Get days between two dates (inclusive). It will generate at least 7 days if the difference
-   * is smaller than 7.
-   * @param startDate
-   * @param endDate can be null
-   * @return
+   * Get days between two dates, with choice of minimum number of days.
+   * @param startDate Cannot be null.
+   * @param endDate Can be null.
+   * @param atLeast The minimum number of days to generate. Zero or negative value can discard this.
+   * @return an ordered list of days including start / end date and all the days in between.
    */
-  public static List<Date> getDaysInBetween_Inclusive_AtLeast7(Date startDate, Date endDate) {
+  public static List<Date> getDaysInBetween_Inclusive(Date startDate, Date endDate, int atLeast) {
     List<Date> days = new ArrayList<Date>();
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(startDate);
 
     int count = 0;
     Date d = calendar.getTime();
-    while (count++ < 7 || (endDate != null && d.before(endDate))) {
+    while (count++ < atLeast || (endDate != null && d.before(endDate))) {
       days.add(d);
       calendar.add(Calendar.DATE, 1);
       d = calendar.getTime();
@@ -56,4 +56,7 @@ public class Util {
     return days;
   }
 
+  public static List<Date> getDaysInBetween_Inclusive(Date startDate, Date endDate) {
+    return getDaysInBetween_Inclusive(startDate, endDate, 0);
+  }
 }

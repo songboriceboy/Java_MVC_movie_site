@@ -18,6 +18,7 @@ public class LoginCommand extends Command {
     Viewer viewer = dao.findViewer(username, password);
     Owner owner = dao.findOwner(username, password);
     
+    request.getSession().setMaxInactiveInterval(60 * 60); // 1 hour
     if (viewer != null) {
       request.getSession().setAttribute("viewer_ss", viewer);
       return "home";

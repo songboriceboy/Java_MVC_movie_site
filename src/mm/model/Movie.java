@@ -124,20 +124,8 @@ public class Movie {
     Movie other = (Movie) obj;
     if (id != other.id)
       return false;
+    // and many more..
     return true;
   }
 
-  public static Movie dummyMovie() {
-    Movie m = new Movie();
-    m.setId(DUMMY_ID);
-    m.setTitle(DUMMY_TITLE);
-    return m ;
-  }
-
-  public boolean isDummyMovie() {
-    return (id==DUMMY_ID && DUMMY_TITLE.equals(title));
-  }
-
-  private static final int DUMMY_ID = -1;
-  private static final String DUMMY_TITLE = "This movie should not exist";
 }

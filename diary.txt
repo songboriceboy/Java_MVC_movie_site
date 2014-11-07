@@ -66,9 +66,13 @@ Nov  6  09:00  10:20        8        Java Date, ShowCinemaScheduleCommand,
         21:30  22:40        7        ShowCinemaScheduleCommand, shrink(), 
         23:20  01:00        8        ShowCinemaScheduleCommand, DAO, finish coding of this funtionality, debug, 
 Nov  7  11:30  12:30        8        ShowCinemaScheduleCommand, running, commit
-        13:10  xx:xx        7        commit, but time is set to Oct 23 on my computer, BitBucket check, mucking around with 
+        13:10  14:00        6        commit, but time is set to Oct 23 on my computer, BitBucket check, mucking around with 
                                      SourceTree - try creating new branch for correct commit date, delete, change Sys date back
-                                     to normal, 
+                                     to normal. It seems the Bitbucket remote repo will be broken forever because of that 
+                                     time-error commit.
+        16:10  17:50        8        Fix bug in ShowCinemaScheduleCommand, AddMovieTimeCommand, 
+        18:40  21:30        9        AddMovieTimeCommand, DAO & JDBC transaction, JSTL param, refactor: use tspA instead of
+                                     tsA & timeslotShowName, AddMovieTimeCommand finish, 
 
 TODO:
 - unique username
@@ -82,6 +86,8 @@ TODO:
 - better exception handling
 - my own Pair class
 - custom JSP tag?
+- LAYOUT: all align to center of page; schedule table fix cell width; 
+- Enum: Movie Status (Now Showing, Coming Soon, No future...)
 
 @Practice using Hibernate on phonebook lab.
 @Practice Bootstrap, read spec, and design UI, code HTML.

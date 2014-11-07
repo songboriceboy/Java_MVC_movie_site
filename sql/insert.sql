@@ -18,28 +18,35 @@ update MOVIES set synopsis = 'In 2074, when the mob wants to get rid of someone,
 
 insert into cinemas values (default,'Burwood',250,13);
 
-insert into schedules values (default,1,2,'2014-10-24','1200');
-insert into schedules values (default,1,2,'2014-10-25','1200');
-insert into schedules values (default,1,2,'2014-10-26','1200');
-insert into schedules values (default,1,2,'2014-10-27','1200');
-insert into schedules values (default,1,2,'2014-10-28','1200');
-insert into schedules values (default,1,2,'2014-10-29','1200');
-insert into schedules values (default,1,2,'2014-10-30','1200');
-insert into schedules values (default,1,2,'2014-10-31','1200');
+-- insert at Nov 7
+insert into schedules values (default,1,3,'2014-11-07','0900');
+insert into schedules values (default,1,3,'2014-11-08','0900');
+insert into schedules values (default,1,3,'2014-11-09','0900');
+insert into schedules values (default,1,1,'2014-11-15','0900');
+insert into schedules values (default,1,1,'2014-11-16','0900');
 
-insert into schedules values (default,1,3,'2014-10-27','0900');
-insert into schedules values (default,1,3,'2014-10-28','0900');
-insert into schedules values (default,1,3,'2014-10-29','0900');
-insert into schedules values (default,1,3,'2014-10-30','0900');
-insert into schedules values (default,1,3,'2014-10-31','0900');
+insert into schedules values (default,1,2,'2014-11-09','1200');
+insert into schedules values (default,1,2,'2014-11-14','1200');
+insert into schedules values (default,1,2,'2014-11-15','1200');
+insert into schedules values (default,1,2,'2014-11-16','1200');
 
-insert into schedules values (default,1,4,'2014-10-27','1500');
+insert into schedules values (default,1,4,'2014-11-10','1500');
+insert into schedules values (default,1,5,'2014-11-11','1500');
+insert into schedules values (default,1,5,'2014-11-12','1500');
 
-insert into schedules values (default,1,5,'2014-10-30','1500');
-insert into schedules values (default,1,5,'2014-10-31','1500');
+insert into schedules values (default,1,6,'2014-11-07','1800');
+insert into schedules values (default,1,6,'2014-11-08','1800');
+insert into schedules values (default,1,6,'2014-11-09','1800');
+insert into schedules values (default,1,6,'2014-11-10','1800');
+insert into schedules values (default,1,6,'2014-11-11','1800');
+insert into schedules values (default,1,6,'2014-11-12','1800');
+insert into schedules values (default,1,6,'2014-11-13','1800');
+insert into schedules values (default,1,6,'2014-11-14','1800');
+insert into schedules values (default,1,6,'2014-11-15','1800');
+insert into schedules values (default,1,6,'2014-11-16','1800');
 
-insert into schedules values (default,1,6,'2014-10-20','1800');
-insert into schedules values (default,1,1,'2014-10-30','1800');
+insert into schedules values (default,2,6,'2014-11-25','1500');
+insert into schedules values (default,2,6,'2014-11-26','1500');
 
 insert into reviews (viewerid,movieid,rating,timeAdded,title,comment) values (1,2,5,CURRENT_TIMESTAMP,'Far more than I expected','Next is a much better movie than I expected to see, having read some of the reviews which called it disjointed and silly. Quite to the contrary, I found it deeply absorbing. I quickly picked up on the elements which must have caused some reviewers to accuse it of being disjointed, and began enjoying them. Of course silliness is part of any sci-fi story, we suspend our critical senses in that regard or we do not become sci-fi fans.');
 insert into reviews (viewerid,movieid,rating,timeAdded,title,comment) values (2,2,4,CURRENT_TIMESTAMP,'Good. Not cheesy, Not overblown. Just pretty darn good.','Cris Johnson has the ability to see 2 minutes into his own future. He works a low-level magic act in Las Vegas with this secret ability and also makes money gambling. However, an FBI Agent sees his uncanny ability to foresee the immediate future and tries to get him to foil a terrorist plot.');

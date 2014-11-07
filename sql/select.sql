@@ -7,11 +7,11 @@ select * from schedules;
 select * from bookings;
 
 ---- for displaying schedule table of a cinema ----
-SELECT MAX(date0) FROM schedules WHERE cinemaid = 2 GROUP BY cinemaid;
+SELECT MAX(date0) FROM schedules WHERE cinemaid = 1 GROUP BY cinemaid;
 
 SELECT * FROM schedules s 
 LEFT JOIN movies m ON m.id = s.movieid 
-WHERE s.cinemaid = 1 AND s.timeslot = '1500' ORDER BY s.date0;
+WHERE s.cinemaid = 1 AND s.timeslot = '1500' AND s.date0 >= CURRENT_DATE ORDER BY s.date0;
 
 ----
 select movieid, min(date0) as mindate from schedules where date0 >= CURRENT_DATE GROUP BY movieid;

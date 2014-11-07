@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -344,11 +345,11 @@ public class DataAccessObject {
     return null;
   }
 
-  public List<Schedule> findSchedulesByCinemaTimeslot(int cinemaid, String ts) {
+  public List<Schedule> findSchedulesByCinemaTimeslotFromToday(int cinemaid, String ts) {
     List<Schedule> ls = new ArrayList<Schedule>();
     String sql = "SELECT s.id as sid, s.date0, s.timeslot, m.* FROM schedules s "
         + "LEFT JOIN movies m ON m.id = s.movieid "
-        + "WHERE s.cinemaid = ? AND s.timeslot = ? ORDER BY s.date0";
+        + "WHERE s.cinemaid = ? AND s.timeslot = ? AND s.date0 >= CURRENT_DATE ORDER BY s.date0";
     try {
       PreparedStatement stmt = con.prepareStatement(sql);
       stmt.setInt(1, cinemaid);
@@ -372,4 +373,34 @@ public class DataAccessObject {
     return s ;
   }
 
+  public boolean addMovieTime(int movieid, int cinemaid, String timeslot, java.util.Date startDate, java.util.Date endDate) {
+    boolean success = true;
+    int n = 0;
+    try {
+      con.setAutoCommit(false);
+      PreparedStatement stmt = con.prepareStatement("INSERT INTO schedules VALUES (DEFAULT,?,?,?,?)");
+      stmt.setInt(1, cinemaid);
+      stmt.setInt(2, movieid);
+      stmt.setString(4, timeslot);
+      for (java.util.Date d : Util.getDaysInBetween_Inclusive(startDate, endDate)) {
+        stmt.setDate(3, new Date(d.getTime()));
+        n += stmt.executeUpdate();
+      }
+      con.commit();
+      con.setAutoCommit(true);
+      logger.info("schedule inserted: "+n+" rows.");
+    } catch (SQLIntegrityConstraintViolationException e) {
+      try {
+        logger.info("schedule time occupied, transaction rolling back...");
+        con.rollback();
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+      }
+      success = false;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      success = false;
+    } 
+    return success;
+  }
 }
