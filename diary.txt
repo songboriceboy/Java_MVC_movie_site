@@ -65,7 +65,10 @@ Nov  6  09:00  10:20        8        Java Date, ShowCinemaScheduleCommand,
         16:20  18:00        6        Apache Commmon Lang DateUtils, compareDay(), ShowCinemaScheduleCommand
         21:30  22:40        7        ShowCinemaScheduleCommand, shrink(), 
         23:20  01:00        8        ShowCinemaScheduleCommand, DAO, finish coding of this funtionality, debug, 
-Nov  7  11:30  12:40        8        ShowCinemaScheduleCommand, running, commit
+Nov  7  11:30  12:30        8        ShowCinemaScheduleCommand, running, commit
+        13:10  xx:xx        7        commit, but time is set to Oct 23 on my computer, BitBucket check, mucking around with 
+                                     SourceTree - try creating new branch for correct commit date, delete, change Sys date back
+                                     to normal, 
 
 TODO:
 - unique username
