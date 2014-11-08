@@ -49,6 +49,8 @@ public class TestCommand extends Command {
     request.setAttribute("pairs", pairs);
     System.out.println(pairs);
 
+    request.setAttribute("fromOperation", "bookingSelectCinema");
+
     return "/_test.jsp";
   }
 }

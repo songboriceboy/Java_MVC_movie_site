@@ -21,7 +21,7 @@
 </td></tr>
 <tr><td><b>Status:</b></td><td>${m.status}</td></tr>
 <c:if test="${showBooking}">
-<tr><td><b>Tickets:</b></td><td><a href="dispatcher?operation=booking&movieid=${m.id}">Book Now!</a></td></tr>
+<tr><td><b>Tickets:</b></td><td><a href="dispatcher?operation=bookingSelectCinema&movieid=${m.id}">Book Now!</a></td></tr>
 </c:if>
 </table></td></tr>
 </table></td>

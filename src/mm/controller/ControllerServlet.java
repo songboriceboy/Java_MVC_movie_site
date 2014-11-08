@@ -22,17 +22,19 @@ public class ControllerServlet extends HttpServlet {
     logger.info("init starts.");
     commands = new HashMap<String,Command>();
     // TODO: make these command strings into a enum, share with jsp. Package mm.shared.model and mm.shared.common
-    commands.put("register", new RegisterCommand());
     commands.put("login", new LoginCommand());
     commands.put("logout", new LogoutCommand());
-    commands.put("home", new HomeCommand());
+    commands.put("register", new RegisterCommand());
     commands.put("updateDetails", new UpdateDetailsCommand());
+    commands.put("home", new HomeCommand());
     commands.put("search", new SearchCommand());
     commands.put("movieDetails", new MovieDetailsCommand());
     commands.put("addCinema", new AddCinemaCommand());
     commands.put("addMovie", new AddMovieCommand());
     commands.put("showCinemaSchedule", new ShowCinemaScheduleCommand());
     commands.put("addMovieTime", new AddMovieTimeCommand());
+    commands.put("bookingSelectCinema", new BookingSelectCinemaCommand());
+    commands.put("bookingConfirm", new BookingConfirmCommand());
     commands.put("test", new TestCommand());
     logger.info("init finishes.");
   }

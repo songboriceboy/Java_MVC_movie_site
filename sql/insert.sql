@@ -51,11 +51,16 @@ insert into schedules values (default,2,6,'2014-11-26','1500');
 insert into reviews (viewerid,movieid,rating,timeAdded,title,comment) values (1,2,5,CURRENT_TIMESTAMP,'Far more than I expected','Next is a much better movie than I expected to see, having read some of the reviews which called it disjointed and silly. Quite to the contrary, I found it deeply absorbing. I quickly picked up on the elements which must have caused some reviewers to accuse it of being disjointed, and began enjoying them. Of course silliness is part of any sci-fi story, we suspend our critical senses in that regard or we do not become sci-fi fans.');
 insert into reviews (viewerid,movieid,rating,timeAdded,title,comment) values (2,2,4,CURRENT_TIMESTAMP,'Good. Not cheesy, Not overblown. Just pretty darn good.','Cris Johnson has the ability to see 2 minutes into his own future. He works a low-level magic act in Las Vegas with this secret ability and also makes money gambling. However, an FBI Agent sees his uncanny ability to foresee the immediate future and tries to get him to foil a terrorist plot.');
 insert into reviews (viewerid,movieid,rating,timeAdded,title,comment) values (2,4,5,CURRENT_TIMESTAMP,'Insanely Brilliant ! Nolan has outdone himself !!','What is the most resilient parasite? An Idea! Yes, Nolan has created something with his unbelievably, incredibly and god- gifted mind which will blow the minds of the audience away. The world premiere of the movie, directed by Hollywoods most inventive dreamers, was shown in London and has already got top notch reviews worldwide and has scored maximum points! Now the question arises what the movie has that it deserve all this?');
+
+insert into bookings values (default,1,53,1);
+insert into bookings values (default,2,53,1);
+insert into bookings values (default,1,54,1);
 ------------
 select * from viewers;
 select * from reviews;
 select * from cinemas;
 select * from movies;
 select * from schedules;
+select * from bookings;
 
 delete from movies where id = 1;

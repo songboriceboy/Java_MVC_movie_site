@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 import mm.db.jdbc.QuickDBConnectionFactory;
+import mm.model.Cinema;
 import mm.model.Movie;
 import mm.model.Owner;
 import mm.model.Review;
@@ -270,6 +271,20 @@ public class DataAccessObject {
     return null;
   }
 
+  public Movie findMovie(int id) {
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM movies m WHERE m.id="+id);
+      if (rs.next()) {
+        Movie m = makeMovie(rs);
+        return m;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   public Movie findMovieDetails(int id) {
     // TODO: do not query reviews (avgRating, numReviews) of coming soon movies
     String sql =
@@ -322,6 +337,22 @@ public class DataAccessObject {
     try {
       Statement stmt = con.createStatement();
       ResultSet rs = stmt.executeQuery("SELECT id, location FROM cinemas");
+      while (rs.next()) {
+        ret.put(rs.getInt("id"), rs.getString("location"));
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return ret ;
+  }
+
+  public Map<Integer, String> findCinemasIdLocationMapWithMovieSchedule(int movieid) {
+    Map<Integer, String> ret = new HashMap<Integer, String>();
+    String sql = "SELECT * FROM cinemas WHERE id IN (SELECT DISTINCT cinemaid FROM schedules WHERE movieid = ?)";
+    try {
+      PreparedStatement stmt = con.prepareStatement(sql);
+      stmt.setInt(1, movieid);
+      ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
         ret.put(rs.getInt("id"), rs.getString("location"));
       }
@@ -402,5 +433,53 @@ public class DataAccessObject {
       success = false;
     } 
     return success;
+  }
+
+  public Cinema findCinema(int id) {
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM cinemas WHERE id="+id);
+      if (rs.next()) {
+        Cinema c = makeCinema(rs);
+        return c;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private Cinema makeCinema(ResultSet rs) throws SQLException {
+    Cinema c = new Cinema();
+    c.setId(rs.getInt("id"));
+    c.setLocation(rs.getString("location"));
+    c.setSeatCapacity(rs.getInt("seatCapacity"));
+    c.setUnitPrice(rs.getInt("unitPrice"));
+    return c ;
+  }
+
+  public List<Schedule> findScheduleByCinemaMovie(int cinemaid, int movieid) {
+    List<Schedule> ls = new ArrayList<Schedule>();
+    String sql = "SELECT * FROM schedules s "
+        + "LEFT JOIN (SELECT scheduleid, SUM(numTickets) AS sumTickets FROM bookings GROUP BY scheduleid) b ON s.id = b.scheduleid "
+        + "WHERE s.date0 >= CURRENT_DATE AND s.cinemaid = ? AND s.movieid = ? "
+        + "ORDER BY s.date0, s.timeslot";
+    try {
+      PreparedStatement stmt = con.prepareStatement(sql);
+      stmt.setInt(1, cinemaid);
+      stmt.setInt(2, movieid);
+      ResultSet rs = stmt.executeQuery();
+      while (rs.next()) {
+        Schedule s = new Schedule();
+        s.setId(rs.getInt("id"));
+        s.setDate(rs.getDate("date0"));
+        s.setTimeslot(rs.getString("timeslot"));
+        s.setNumTickets(rs.getInt("sumTickets")); // rs.getInt("sumTickets") will be 0 instead of NULL if no date presents
+        ls.add(s);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return ls;
   }
 }

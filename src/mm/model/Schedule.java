@@ -8,6 +8,7 @@ public class Schedule {
   private Movie movie;
   private Date date;
   private String timeslot;
+  private int numTickets; // total number of tickets booked
 
   public int getId() {
     return id;
@@ -38,6 +39,12 @@ public class Schedule {
   }
   public void setTimeslot(String timeslot) {
     this.timeslot = timeslot;
+  }
+  public int getNumTickets() {
+    return numTickets;
+  }
+  public void setNumTickets(int numTickets) {
+    this.numTickets = numTickets;
   }
   
 }

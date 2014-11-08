@@ -6,12 +6,6 @@ public class Cinema {
   private int seatCapacity;
   private int unitPrice;
   
-  public Cinema(int id, String location, int seatCapacity, int unitPrice) {
-    this.id = id;
-    this.location = location;
-    this.seatCapacity = seatCapacity;
-    this.unitPrice = unitPrice;
-  }
   public int getId() {
     return id;
   }

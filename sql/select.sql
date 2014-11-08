@@ -6,6 +6,18 @@ select * from cinemas;
 select * from schedules;
 select * from bookings;
 
+SELECT * FROM cinemas WHERE id IN (SELECT DISTINCT cinemaid FROM schedules WHERE movieid = 4);
+SELECT DISTINCT c.* FROM cinemas c, schedules s WHERE c.id = s.cinemaid AND s.movieid = 4; 
+
+SELECT b.scheduleid, SUM(b.numTickets) FROM bookings b GROUP BY b.scheduleid;
+
+---- schedule + total number of tickets booked, for booking ----
+-- TODO: 0 instead of NULL if there is no booking of the schedule; Not using LEFT JOIN?
+SELECT * FROM schedules s 
+LEFT JOIN (SELECT scheduleid, SUM(numTickets) AS sumTickets FROM bookings GROUP BY scheduleid) b ON s.id = b.scheduleid
+WHERE s.date0 >= CURRENT_DATE AND s.cinemaid = 2 AND s.movieid = 4
+ORDER BY s.date0, s.timeslot;
+
 ---- for displaying schedule table of a cinema ----
 SELECT MAX(date0) FROM schedules WHERE cinemaid = 1 GROUP BY cinemaid;
 

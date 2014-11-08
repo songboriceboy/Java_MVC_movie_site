@@ -18,13 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import mm.model.Movie;
 import mm.model.Pair;
 import mm.model.Schedule;
+import mm.util.Constants;
 import mm.util.Util;
 
 public class ShowCinemaScheduleCommand extends Command {
-  
-  private static final Pair[] tspA = { // timeslot pair array (TIMESLOT_KEY, DISPLAY_STRING), Pair<String,String>
-    new Pair("0900","9:00am"), new Pair("1200","12:00pm"), new Pair("1500","3:00pm"), new Pair("1800","6:00pm") 
-  };
 
   public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String title = request.getParameter("title"); // could be from AddMovie
@@ -68,7 +65,7 @@ public class ShowCinemaScheduleCommand extends Command {
     
     // Map<TIMESLOT, List<Pair<NUM_OF_CONSECUTIVE_DAYS, MOVIE_TITLE>>>
     Map<String, List<Pair<Integer,String>>> scheduleList = new HashMap<String, List<Pair<Integer,String>>>();
-    for (Pair<String,String> tsp : tspA) {
+    for (Pair<String,String> tsp : Constants.tspA) {
       String ts = tsp.getFirst();
       Movie[] mA = new Movie[dA.length];
       if (lastDay != null) {
@@ -96,7 +93,7 @@ public class ShowCinemaScheduleCommand extends Command {
     }
     request.setAttribute("days", dSA);
     request.setAttribute("scheduleList", scheduleList);
-    request.setAttribute("timeslotPairArray", tspA);
+    request.setAttribute("timeslotPairArray", Constants.tspA);
     printTableForDebug(dSA, scheduleList);
     
     return "/owner-addmovietime.jsp";
@@ -128,7 +125,7 @@ public class ShowCinemaScheduleCommand extends Command {
     }
     System.out.println();
     
-    for (Pair<String,String> tsp : tspA) {
+    for (Pair<String,String> tsp : Constants.tspA) {
       String ts = tsp.getFirst();
       List<Pair<Integer, String>> lp = scheduleList.get(ts);
       for (Pair<Integer, String> p : lp) {
