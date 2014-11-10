@@ -55,6 +55,7 @@ insert into reviews (viewerid,movieid,rating,timeAdded,title,comment) values (2,
 insert into bookings values (default,1,53,1);
 insert into bookings values (default,2,53,1);
 insert into bookings values (default,1,54,1);
+insert into bookings values (default,1,53,4);
 ------------
 select * from viewers;
 select * from reviews;

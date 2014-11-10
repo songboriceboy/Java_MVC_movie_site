@@ -21,8 +21,7 @@ public class BookingSelectCinemaCommand extends Command {
   public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     int movieid = Integer.parseInt(request.getParameter("movieid"));
     Movie m = dao.findMovie(movieid);
-    request.setAttribute("movieTitle", m.getTitle());
-    request.setAttribute("moviePoster", m.getPoster());
+    request.setAttribute("movie", m);
     
     Map<Integer,String> cinemas = dao.findCinemasIdLocationMapWithMovieSchedule(movieid);
     request.setAttribute("cinemas", cinemas);

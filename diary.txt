@@ -74,7 +74,11 @@ Nov  7  11:30  12:30        8        ShowCinemaScheduleCommand, running, commit
         18:40  21:30        9        AddMovieTimeCommand, DAO & JDBC transaction, JSTL param, refactor: use tspA instead of
                                      tsA & timeslotShowName, AddMovieTimeCommand finish, 
         23:00  00:30        8        Booking*Command, booking.jsp
-Nov  8  16:20  xx:xx                 Booking*Command, booking.jsp, 
+Nov  8  16:20  18:20        7        BookingSelectCinemaCommand, booking.jsp, 
+        22:50  23:30        8        BookingSelectCinemaCommand, SQL, commit
+Nov  9  09:40  10:40        9        BookingConfirmCommand, SQL
+Nov 10  16:30  17:20        8        BookingConfirmCommand, SQL
+Nov 10  22:30  00:00        8        BookingConfirmCommand, finish, debug, commit
 
 TODO:
 - unique username
@@ -90,6 +94,8 @@ TODO:
 - custom JSP tag?
 - LAYOUT: all align to center of page; schedule table fix cell width; 
 - Enum: Movie Status (Now Showing, Coming Soon, No future...)
+- ID column of each table uses unique name ('movieID', 'scheduelID' ...) instead of 'id' for all
+- centralise date formatting
 
 @Practice using Hibernate on phonebook lab.
 @Practice Bootstrap, read spec, and design UI, code HTML.

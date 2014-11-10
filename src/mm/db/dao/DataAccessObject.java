@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import mm.model.Owner;
 import mm.model.Review;
 import mm.model.Schedule;
 import mm.model.Viewer;
+import mm.model.helper.BookingConfirmInfo;
 import mm.util.Util;
 
 public class DataAccessObject {
@@ -441,6 +443,7 @@ public class DataAccessObject {
       ResultSet rs = stmt.executeQuery("SELECT * FROM cinemas WHERE id="+id);
       if (rs.next()) {
         Cinema c = makeCinema(rs);
+        logger.info("found cinema: "+c.getLocation());
         return c;
       }
     } catch (SQLException e) {
@@ -474,12 +477,97 @@ public class DataAccessObject {
         s.setId(rs.getInt("id"));
         s.setDate(rs.getDate("date0"));
         s.setTimeslot(rs.getString("timeslot"));
-        s.setNumTickets(rs.getInt("sumTickets")); // rs.getInt("sumTickets") will be 0 instead of NULL if no date presents
+        s.setNumTickets(rs.getInt("sumTickets")); // rs.getInt("sumTickets") will be 0 instead of NULL if no data
         ls.add(s);
+//        logger.info("found schedule: id="+s.getId()+" sumTickets="+s.getNumTickets());
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    logger.info("found "+ls.size()+" schedules");
     return ls;
+  }
+
+  public int findNumSeatsLeftBySchedule(int scheduleID) {
+    String sql = "SELECT c.seatCapacity,  b.sumTickets FROM cinemas c, schedules s "
+        + " LEFT JOIN (SELECT scheduleID, SUM(numTickets) as sumTickets FROM bookings WHERE scheduleID = ? GROUP BY scheduleID) b ON s.id = b.scheduleID "
+        + "WHERE c.id = s.cinemaID AND s.id = ?";
+    try {
+      PreparedStatement stmt = con.prepareStatement(sql);
+      stmt.setInt(1, scheduleID);
+      stmt.setInt(2, scheduleID);
+      ResultSet rs = stmt.executeQuery();
+      if (rs.next()) {
+        int sc = rs.getInt("seatCapacity");
+        int st = rs.getInt("sumTickets");
+        int n = sc - st;
+        logger.info("numSeatsLeft="+n);
+        return n;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return -1;
+  }
+
+  public void addBooking(int viewerID, int scheduleID, int nTickets) {
+    String sql = "INSERT INTO bookings VALUES (DEFAULT,?,?,?)";
+    try {
+      PreparedStatement stmt = con.prepareStatement(sql);
+      stmt.setInt(1, viewerID);
+      stmt.setInt(2, scheduleID);
+      stmt.setInt(3, nTickets);
+      if (stmt.executeUpdate() > 0)
+        logger.info("inserted");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public int findBookingIdByViewerSchedule(int viewerID, int scheduleID) {
+    // THIS QUERY IS NOT GOOD: MAX(id) is the newest id IFF id is incremented.
+    String sql = "SELECT MAX(id) AS maxID FROM bookings WHERE viewerID = ? AND scheduleID = ?";
+    try {
+      PreparedStatement stmt = con.prepareStatement(sql);
+      stmt.setInt(1, viewerID);
+      stmt.setInt(2, scheduleID);
+      ResultSet rs = stmt.executeQuery();
+      if (rs.next()) { 
+        int id = rs.getInt("maxID");
+        logger.info("found booking ID: "+id);
+        return id;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return -1;
+  }
+
+  // TODO: ID column of each table uses unique name ('movieID', 'scheduelID' ...) instead of 'id'
+  public BookingConfirmInfo findBookingConfirmById(int bookingID) {
+    BookingConfirmInfo bc = new BookingConfirmInfo();
+    String sql = "SELECT m.*, b.id AS bookingID, b.numTickets, s.id AS sid, s.date0, s.timeslot, c.location, c.unitPrice "
+        + "  FROM bookings b, schedules s, movies m, cinemas c "
+        + "WHERE b.scheduleID = s.id AND s.movieID = m.id AND s.cinemaID = c.id AND b.id = "+bookingID;
+    SimpleDateFormat fmt = new SimpleDateFormat("d MMM yyyy");
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery(sql);
+      if (rs.next()) {
+        Schedule s = makeScheduleWithMovie(rs);
+        bc.setDate(fmt.format(s.getDate()));
+        bc.setTimeslot(s.getTimeslot());
+        bc.setMovie(s.getMovie());
+        bc.setBookingID(rs.getInt("bookingID"));
+        bc.setNumTickets(rs.getInt("numTickets"));
+        bc.setCinema(rs.getString("location"));
+        bc.setUnitPrice(rs.getInt("unitPrice"));
+        bc.setTotalPrice(bc.getUnitPrice() * bc.getNumTickets());
+        logger.info(bc.toString());
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return bc;
   }
 }

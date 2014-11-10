@@ -6,13 +6,36 @@ select * from cinemas;
 select * from schedules;
 select * from bookings;
 
+select MAX(id) from bookings where viewerID = 1 AND scheduleID = 53;
+
+---- BookingConfirmInfo ---
+--SELECT b.id AS bookingID, b.numTickets, m.*, s.date0, s.timeslot
+SELECT m.*, b.id AS bookingID, b.numTickets, s.id AS sid, s.date0, s.timeslot, c.location, c.unitPrice 
+  FROM bookings b, schedules s, movies m, cinemas c
+WHERE b.scheduleID = s.id AND s.movieID = m.id AND s.cinemaID = c.id AND b.id = 1;
+
+---- (SeatCapacity - numTicketsBooked) of a schedule ----
+SELECT c.seatCapacity,  b.sumTickets FROM cinemas c, schedules s
+ LEFT JOIN (SELECT scheduleID, SUM(numTickets) as sumTickets FROM bookings WHERE scheduleID = 38 GROUP BY scheduleID) b ON s.id = b.scheduleID
+WHERE c.id = s.cinemaID AND s.id = 38;
+
+-- bug: empty result if sumTickets is NULL
+SELECT c.seatCapacity - b.sumTickets AS numSeatsLeft FROM cinemas c, schedules s,
+ (SELECT scheduleID, SUM(numTickets) as sumTickets FROM bookings WHERE scheduleID = 53 GROUP BY scheduleID) b
+WHERE c.id = s.cinemaID AND s.id = b.scheduleID;
+
+-- MIN(c.seatCapacity) is weird but works.
+SELECT MIN(c.seatCapacity) - SUM(b.numTickets) AS seatsLeft FROM cinemas c, schedules s, bookings b WHERE c.id = s.cinemaID AND s.id = b.scheduleID AND b.scheduleID = 53 GROUP BY b.scheduleID;
+
+SELECT SUM(b.numTickets) FROM bookings b WHERE b.scheduleID = 53 GROUP BY b.scheduleID;
+
+--- cinemas showing a particular movie ---
 SELECT * FROM cinemas WHERE id IN (SELECT DISTINCT cinemaid FROM schedules WHERE movieid = 4);
 SELECT DISTINCT c.* FROM cinemas c, schedules s WHERE c.id = s.cinemaid AND s.movieid = 4; 
 
 SELECT b.scheduleid, SUM(b.numTickets) FROM bookings b GROUP BY b.scheduleid;
 
 ---- schedule + total number of tickets booked, for booking ----
--- TODO: 0 instead of NULL if there is no booking of the schedule; Not using LEFT JOIN?
 SELECT * FROM schedules s 
 LEFT JOIN (SELECT scheduleid, SUM(numTickets) AS sumTickets FROM bookings GROUP BY scheduleid) b ON s.id = b.scheduleid
 WHERE s.date0 >= CURRENT_DATE AND s.cinemaid = 2 AND s.movieid = 4
