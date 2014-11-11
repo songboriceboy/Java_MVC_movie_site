@@ -9,10 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mm.model.BookingPerSchedule;
 import mm.model.Cinema;
 import mm.model.Movie;
 import mm.model.Schedule;
+import mm.model.helper.BookingPerSchedule;
 import mm.util.Constants;
 
 public class BookingSelectCinemaCommand extends Command {
@@ -47,10 +47,10 @@ public class BookingSelectCinemaCommand extends Command {
       int n = c.getSeatCapacity() - s.getNumTickets();
       if (n > 0) {
         str += " ("+n+" seats left)";
-        bsa[i].setSoldOut(false);
+        bsa[i].setIsSoldOut(false);
       } else {
         str += " (Sold out)";
-        bsa[i].setSoldOut(true);
+        bsa[i].setIsSoldOut(true);
       }
       bsa[i].setStrRep(str);
       i++;

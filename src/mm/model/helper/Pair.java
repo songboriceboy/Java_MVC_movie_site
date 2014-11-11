@@ -1,4 +1,4 @@
-package mm.model;
+package mm.model.helper;
 
 /**
  * Helper POJO

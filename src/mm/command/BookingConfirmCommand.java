@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mm.model.Viewer;
-import mm.model.helper.BookingConfirmInfo;
+import mm.model.helper.BookingInfo;
 
 public class BookingConfirmCommand extends Command {
 
@@ -34,7 +34,7 @@ public class BookingConfirmCommand extends Command {
     dao.addBooking(viewerID, scheduleID, nTickets);
     // TODO: best way to find the ID of the newly inserted row
     int bookingID = dao.findBookingIdByViewerSchedule(viewerID, scheduleID);
-    BookingConfirmInfo bc = dao.findBookingConfirmById(bookingID);
+    BookingInfo bc = dao.findBookingInfoById(bookingID);
     request.setAttribute("bc", bc);
     request.setAttribute("movie", bc.getMovie());
     request.setAttribute("fromOperation", "bookingConfirm");

@@ -23,7 +23,8 @@ import mm.model.Owner;
 import mm.model.Review;
 import mm.model.Schedule;
 import mm.model.Viewer;
-import mm.model.helper.BookingConfirmInfo;
+import mm.model.helper.BookingInfo;
+import mm.util.Constants;
 import mm.util.Util;
 
 public class DataAccessObject {
@@ -544,30 +545,56 @@ public class DataAccessObject {
   }
 
   // TODO: ID column of each table uses unique name ('movieID', 'scheduelID' ...) instead of 'id'
-  public BookingConfirmInfo findBookingConfirmById(int bookingID) {
-    BookingConfirmInfo bc = new BookingConfirmInfo();
+  public BookingInfo findBookingInfoById(int bookingID) {
+    BookingInfo bi = null;
     String sql = "SELECT m.*, b.id AS bookingID, b.numTickets, s.id AS sid, s.date0, s.timeslot, c.location, c.unitPrice "
-        + "  FROM bookings b, schedules s, movies m, cinemas c "
-        + "WHERE b.scheduleID = s.id AND s.movieID = m.id AND s.cinemaID = c.id AND b.id = "+bookingID;
-    SimpleDateFormat fmt = new SimpleDateFormat("d MMM yyyy");
+        + " FROM bookings b, schedules s, movies m, cinemas c "
+        + " WHERE b.scheduleID = s.id AND s.movieID = m.id AND s.cinemaID = c.id AND b.id = "+bookingID;
     try {
       Statement stmt = con.createStatement();
       ResultSet rs = stmt.executeQuery(sql);
       if (rs.next()) {
-        Schedule s = makeScheduleWithMovie(rs);
-        bc.setDate(fmt.format(s.getDate()));
-        bc.setTimeslot(s.getTimeslot());
-        bc.setMovie(s.getMovie());
-        bc.setBookingID(rs.getInt("bookingID"));
-        bc.setNumTickets(rs.getInt("numTickets"));
-        bc.setCinema(rs.getString("location"));
-        bc.setUnitPrice(rs.getInt("unitPrice"));
-        bc.setTotalPrice(bc.getUnitPrice() * bc.getNumTickets());
-        logger.info(bc.toString());
+        bi = makeBookingInfo(rs);
+        logger.info(bi.toString());
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return bc;
+    return bi;
+  }
+
+  private BookingInfo makeBookingInfo(ResultSet rs) throws SQLException {
+    BookingInfo bi = new BookingInfo();
+    Schedule s = makeScheduleWithMovie(rs);
+    SimpleDateFormat fmt = new SimpleDateFormat("d MMM yyyy");
+    bi.setDate(fmt.format(s.getDate()));
+    bi.setTimeslot(Constants.tsMap.get(s.getTimeslot()));
+    bi.setMovie(s.getMovie());
+    bi.setBookingID(rs.getInt("bookingID"));
+    bi.setNumTickets(rs.getInt("numTickets"));
+    bi.setCinema(rs.getString("location"));
+    bi.setUnitPrice(rs.getInt("unitPrice"));
+    bi.setTotalPrice(bi.getUnitPrice() * bi.getNumTickets());
+    return bi;
+  }
+
+  public List<BookingInfo> findBookingInfosByViewer(int viewerID) {
+    List<BookingInfo> lb = new ArrayList<BookingInfo>();
+    String sql = "SELECT m.*, b.id AS bookingID, b.numTickets, s.id AS sid, s.date0, s.timeslot, c.location, c.unitPrice "
+        + " FROM bookings b, schedules s, movies m, cinemas c "
+        + " WHERE b.scheduleID = s.id AND s.movieID = m.id AND s.cinemaID = c.id AND b.viewerID = "+viewerID
+        + " ORDER BY b.id DESC";    
+    try {
+      Statement stmt = con.createStatement();
+      ResultSet rs = stmt.executeQuery(sql);
+      while (rs.next()) {
+        BookingInfo bi = makeBookingInfo(rs);
+        lb.add(bi);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    logger.info("list size="+lb.size());
+    return lb ;
   }
 }

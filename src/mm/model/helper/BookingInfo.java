@@ -2,7 +2,7 @@ package mm.model.helper;
 
 import mm.model.Movie;
 
-public class BookingConfirmInfo {
+public class BookingInfo {
   private Movie movie;
   private int bookingID;
   private String cinema;

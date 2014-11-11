@@ -9,7 +9,11 @@ select * from bookings;
 select MAX(id) from bookings where viewerID = 1 AND scheduleID = 53;
 
 ---- BookingConfirmInfo ---
---SELECT b.id AS bookingID, b.numTickets, m.*, s.date0, s.timeslot
+SELECT m.*, b.id AS bookingID, b.numTickets, s.id AS sid, s.date0, s.timeslot, c.location, c.unitPrice 
+  FROM bookings b, schedules s, movies m, cinemas c
+WHERE b.scheduleID = s.id AND s.movieID = m.id AND s.cinemaID = c.id AND b.viewerID = 1
+ORDER BY b.id DESC;
+
 SELECT m.*, b.id AS bookingID, b.numTickets, s.id AS sid, s.date0, s.timeslot, c.location, c.unitPrice 
   FROM bookings b, schedules s, movies m, cinemas c
 WHERE b.scheduleID = s.id AND s.movieID = m.id AND s.cinemaID = c.id AND b.id = 1;

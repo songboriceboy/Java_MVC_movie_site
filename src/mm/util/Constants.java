@@ -3,7 +3,7 @@ package mm.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import mm.model.Pair;
+import mm.model.helper.Pair;
 
 public class Constants {
   

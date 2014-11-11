@@ -79,6 +79,7 @@ Nov  8  16:20  18:20        7        BookingSelectCinemaCommand, booking.jsp,
 Nov  9  09:40  10:40        9        BookingConfirmCommand, SQL
 Nov 10  16:30  17:20        8        BookingConfirmCommand, SQL
 Nov 10  22:30  00:00        8        BookingConfirmCommand, finish, debug, commit
+Nov 12  09:30  xx:xx        x        BookingConfirmCommand, debug, MyBookings, 
 
 TODO:
 - unique username

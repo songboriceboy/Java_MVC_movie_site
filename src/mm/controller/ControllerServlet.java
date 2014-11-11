@@ -35,6 +35,7 @@ public class ControllerServlet extends HttpServlet {
     commands.put("addMovieTime", new AddMovieTimeCommand());
     commands.put("bookingSelectCinema", new BookingSelectCinemaCommand());
     commands.put("bookingConfirm", new BookingConfirmCommand());
+    commands.put("mybookings", new MyBookingsCommand());
     commands.put("test", new TestCommand());
     logger.info("init finishes.");
   }

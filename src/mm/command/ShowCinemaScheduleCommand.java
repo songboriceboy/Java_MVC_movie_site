@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mm.model.Movie;
-import mm.model.Pair;
 import mm.model.Schedule;
+import mm.model.helper.Pair;
 import mm.util.Constants;
 import mm.util.Util;
 

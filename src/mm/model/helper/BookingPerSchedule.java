@@ -1,4 +1,4 @@
-package mm.model;
+package mm.model.helper;
 
 /**
  * Helper POJO, for convenience of booking.jsp
@@ -6,7 +6,7 @@ package mm.model;
  */
 public class BookingPerSchedule {
   private int scheduleID;
-  private boolean soldOut;
+  private boolean isSoldOut;
   private String strRep;
   
   public int getScheduleID() {
@@ -15,11 +15,11 @@ public class BookingPerSchedule {
   public void setScheduleID(int scheduleID) {
     this.scheduleID = scheduleID;
   }
-  public boolean getSoldOut() {
-    return soldOut;
+  public boolean getIsSoldOut() {
+    return isSoldOut;
   }
-  public void setSoldOut(boolean soldOut) {
-    this.soldOut = soldOut;
+  public void setIsSoldOut(boolean soldOut) {
+    this.isSoldOut = soldOut;
   }
   public String getStrRep() {
     return strRep;

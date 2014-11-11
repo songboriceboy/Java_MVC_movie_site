@@ -28,8 +28,8 @@
 <tr><td width="110"><b>Date & Time:</b></td><td>
 <c:forEach var="b" items="${bookingStatusArray}">
 <input type="radio" name="scheduleID" value="${b.scheduleID}"
- <c:if test="${b.scheduleID eq selectedSID}">selected</c:if>
- <c:if test="${b.soldOut}">disabled</c:if> > ${b.strRep} <br/>
+ <c:if test="${b.scheduleID eq selectedSID}">checked</c:if>
+ <c:if test="${b.isSoldOut}">disabled</c:if> > ${b.strRep} <br/>
 </c:forEach>
 </td></tr>
 <tr><td><b>Unit Price:</b></td><td>$${unitPrice}</td></tr>
