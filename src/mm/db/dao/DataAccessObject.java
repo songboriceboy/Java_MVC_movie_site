@@ -324,7 +324,7 @@ public class DataAccessObject {
         r.setTitle(rs.getString("title"));
         r.setComment(rs.getString("comment"));
         r.setUsername(rs.getString("username"));
-        r.setRating(rs.getShort("rating"));
+        r.setRating(rs.getFloat("rating"));
         r.setTimeAdded(rs.getTimestamp("timeAdded"));
         ret.add(r);
       }
@@ -596,5 +596,21 @@ public class DataAccessObject {
     }
     logger.info("list size="+lb.size());
     return lb ;
+  }
+
+  public void addReview(int viewerID, int movieID, String title, float rating, String comment) {
+    String sql = "INSERT INTO reviews VALUES (DEFAULT,?,?,?,?,?,CURRENT_TIMESTAMP)";
+    try {
+      PreparedStatement stmt = con.prepareStatement(sql);
+      stmt.setInt(1, viewerID);
+      stmt.setInt(2, movieID);
+      stmt.setString(3, title);
+      stmt.setString(4, comment);
+      stmt.setFloat(5,rating);
+      if (stmt.executeUpdate() > 0)
+        logger.info("added review: "+title);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

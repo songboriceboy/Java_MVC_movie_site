@@ -29,6 +29,7 @@ public class ControllerServlet extends HttpServlet {
     commands.put("home", new HomeCommand());
     commands.put("search", new SearchCommand());
     commands.put("movieDetails", new MovieDetailsCommand());
+    commands.put("addReview", new AddReviewCommand());
     commands.put("addCinema", new AddCinemaCommand());
     commands.put("addMovie", new AddMovieCommand());
     commands.put("showCinemaSchedule", new ShowCinemaScheduleCommand());

@@ -19,6 +19,7 @@ public class BookingConfirmCommand extends Command {
     try {
       scheduleID = Integer.parseInt(request.getParameter("scheduleID"));
       nTickets = Integer.parseInt(request.getParameter("ntickets"));
+      if (nTickets <= 0) throw new Exception();
     } catch (Exception e) {
       request.setAttribute("invalidInput", "Invalid input!");
       return "bookingSelectCinema";

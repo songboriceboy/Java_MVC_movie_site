@@ -1,7 +1,7 @@
 insert into Viewers values (default,'ryan','a','ryan','Ryan','Zhang','zhangchengyi2010@gmail.com',true);
 insert into Viewers values (default,'chengyi','a',null,'Ryan','Zhang','zhangchengyi2010@gmail.com',true);
 
-insert into Owners values (default,'yiyo','a');
+insert into Owners values (default,'miaowu','a');
 
 insert into MOVIES values (default, 'Next','posters/next.jpg','Science Fiction','Lee Tamahori','Nicolas Cage, Julianne Moore, Jessica Biel',CURRENT_TIMESTAMP,null);
 insert into MOVIES values (default, 'Edge of Tomorrow','posters/edge of tomorrow.jpg','Science Fiction','Doug Liman','Tom Cruise, Emily Blunt, Bill Paxton',CURRENT_TIMESTAMP,null);

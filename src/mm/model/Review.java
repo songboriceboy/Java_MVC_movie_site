@@ -7,7 +7,7 @@ public class Review {
   private String title;
   private String comment; // TODO: better type in DB
   private String username;
-  private short rating;
+  private float rating;
   private Timestamp timeAdded;
   
   public int getId() {
@@ -34,10 +34,10 @@ public class Review {
   public void setUsername(String username) {
     this.username = username;
   }
-  public short getRating() {
+  public float getRating() {
     return rating;
   }
-  public void setRating(short rating) {
+  public void setRating(float rating) {
     this.rating = rating;
   }
   public Timestamp getTimeAdded() {

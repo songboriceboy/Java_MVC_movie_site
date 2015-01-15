@@ -45,7 +45,7 @@
 </c:choose>
 </table>
 
-<form action="dispatcher?operation=addReview" method="post">
+<form action="dispatcher?operation=addReview&movieid=${param.movieid}" method="post">
 <table width="700">
 <tr><td><h2 style="font-family: verdana; color: orange;">Post My Review:</h2></td></tr>
 <tr><td><table>

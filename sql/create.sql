@@ -36,7 +36,7 @@ CREATE TABLE Reviews (
     viewerId INTEGER NOT NULL,
     movieId INTEGER NOT NULL,
     title VARCHAR(100) NOT NULL,
-    comment VARCHAR(1000),
+    comment VARCHAR(1000), --TODO: better type?
     rating REAL NOT NULL,
     timeAdded TIMESTAMP,
     CONSTRAINT pk_reviews PRIMARY KEY (id),
